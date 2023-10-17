@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ env.REGISTRY }}/${{ github.repository }}
+  IMAGE_NAME: $REGISTRY/${{ github.repository }}
   PLATFORMS: |
     linux/arm64
 
