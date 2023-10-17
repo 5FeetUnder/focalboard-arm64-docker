@@ -3,7 +3,7 @@
 this is just a simple Github workflow that clones the [mattermost/focalboard](https://github.com/mattermost/focalboard) repository and builds it with multiple platforms, which is possible, according to their [docker/README.md](https://github.com/mattermost/focalboard/blob/main/docker/README.md).
 
 Currently the workflow builds the following platforms:
-* linux/arm/v7
+* ~~linux/arm/v7~~ &rarr; not possible due to a dependency on Cypress (a `npm` package) which only supports x86_64 and Arm 64-bit
 * linux/arm/v8
 * linux/arm64
 
