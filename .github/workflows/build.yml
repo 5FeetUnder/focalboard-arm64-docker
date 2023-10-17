@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: $REGISTRY/${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}
   PLATFORMS: |
     linux/arm64
 
@@ -44,6 +44,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Set Time
+        run: echo 
       - 
         name: Build and push the image
         uses: docker/build-push-action@v5
@@ -52,4 +55,11 @@ jobs:
           push: true
           file: ./docker/Dockerfile
           platforms: ${{ env.PLATFORMS }}
-          tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_NAME }}:${{ inputs.release_tag }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.release_tag }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.title=focalboard-docker-arm64
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.version=${{ inputs.release_tag }}
