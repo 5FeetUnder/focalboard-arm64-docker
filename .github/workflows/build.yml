@@ -44,9 +44,18 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Set Time
-        run: echo 
+      - 
+        name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,patter={{raw}},value=${{ inputs.release_tag }}
+            type=semver,patter={{version}},value=${{ inputs.release_tag }}
+            type=semver,patter=v{{major}}.{{minor}},value=${{ inputs.release_tag }}
+            type=semver,patter={{major}}.{{minor}},value=${{ inputs.release_tag }}
       - 
         name: Build and push the image
         uses: docker/build-push-action@v5
@@ -55,11 +64,5 @@ jobs:
           push: true
           file: ./docker/Dockerfile
           platforms: ${{ env.PLATFORMS }}
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ inputs.release_tag }}
-          labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.title=focalboard-docker-arm64
-            org.opencontainers.image.url=https://github.com/${{ github.repository }}
-            org.opencontainers.image.version=${{ inputs.release_tag }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
