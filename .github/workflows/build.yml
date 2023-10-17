@@ -52,4 +52,4 @@ jobs:
           push: true
           file: ./docker/Dockerfile
           platforms: ${{ env.PLATFORMS }}
-          tags: latest,${{ inputs.release_tag }}
+          tags: ${{ env.IMAGE_NAME }}:latest,${{ env.IMAGE_NAME }}:${{ inputs.release_tag }}
