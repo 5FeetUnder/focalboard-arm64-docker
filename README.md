@@ -4,7 +4,7 @@ this is just a simple Github workflow that clones the [mattermost/focalboard](ht
 
 Currently the workflow builds the following platforms:
 * ~~linux/arm/v7~~ &rarr; not possible due to a dependency on Cypress (a `npm` package) which only supports x86_64 and Arm 64-bit
-* linux/arm/v8
+* ~~linux/arm/v8~~ &rarr; same as arm/v7
 * linux/arm64
 
 ## Motivation
