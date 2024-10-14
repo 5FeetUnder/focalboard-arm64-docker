@@ -49,6 +49,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
           tags: |
             type=semver,pattern={{raw}},value=${{ inputs.release_tag }}
             type=semver,pattern={{version}},value=${{ inputs.release_tag }}
